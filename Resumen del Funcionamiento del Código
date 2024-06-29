@@ -1,0 +1,35 @@
+Resumen del Funcionamiento del Código
+
+Clases y Funciones Principales
+
+Clase Transaccion:
+Esta clase define una transacción con los siguientes atributos: monto, fecha, descripcion y tipo (ingreso o gasto).
+
+Función agregar_transaccion:
+Esta función permite al usuario agregar una nueva transacción. Recibe los datos de la transacción (monto, fecha, descripción y tipo), crea una instancia de la clase Transaccion y la agrega a una lista de transacciones (lista_transacciones).
+
+Función listar_transacciones:
+Esta función muestra en la consola la lista de transacciones ordenadas por fecha. Utiliza el método sorted() para ordenar la lista de transacciones por la fecha de cada transacción.
+
+Función calcular_balance:
+Calcula y muestra el balance financiero actual. Calcula el total de ingresos, el total de gastos y la capacidad de ahorro (diferencia entre ingresos y gastos).
+
+Función guardar_datos:
+Guarda la lista de transacciones (lista_transacciones) en un archivo binario usando el módulo pickle. El archivo se llama 'datos_financieros.pkl'.
+
+Función cargar_datos:
+Intenta cargar los datos previos de transacciones desde el archivo 'datos_financieros.pkl'. Si el archivo existe, carga los datos en la lista de transacciones (lista_transacciones). Si no existe el archivo, inicializa lista_transacciones como una lista vacía.
+
+Función menu_principal:
+Esta función implementa un bucle que muestra un menú interactivo en la terminal. Permite al usuario elegir entre diferentes opciones para interactuar con la aplicación:
+
+Agregar una transacción.
+Listar transacciones.
+Mostrar el balance.
+Guardar los datos.
+Salir del programa.
+
+Manejo de Excepciones
+Se implementa manejo de excepciones para validar que los datos ingresados por el usuario sean del tipo correcto o para manejar posibles errores durante la carga o guardado de datos.
+Ejemplo de Uso
+El código está diseñado para ejecutarse en una terminal interactiva donde el usuario puede agregar transacciones, ver la lista de transacciones, calcular el balance financiero y guardar los datos para uso posterior.
