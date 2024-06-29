@@ -1,0 +1,89 @@
+import pickle
+from datetime import datetime
+1
+class Transaccion:
+    def __init__(self, monto, fecha, descripcion, tipo):
+        self.monto = monto
+        self.fecha = fecha
+        self.descripcion = descripcion
+        self.tipo = tipo
+
+class GestorFinanciero:
+    def __init__(self):
+        self.transacciones = []
+    
+    def agregar_transaccion(self, monto, fecha, descripcion, tipo):
+        transaccion = Transaccion(monto, fecha, descripcion, tipo)
+        self.transacciones.append(transaccion)
+    
+    def listar_transacciones(self):
+        # Ordenar transacciones por fecha
+        transacciones_ordenadas = sorted(self.transacciones, key=lambda x: x.fecha)
+        for transaccion in transacciones_ordenadas:
+            print(f"Fecha: {transaccion.fecha} | Monto: {transaccion.monto} | Descripción: {transaccion.descripcion} | Tipo: {transaccion.tipo}")
+    
+    def calcular_balance(self):
+        ingresos = sum(transaccion.monto for transaccion in self.transacciones if transaccion.tipo == 'ingreso')
+        gastos = sum(transaccion.monto for transaccion in self.transacciones if transaccion.tipo == 'gasto')
+        ahorro = ingresos - gastos
+        return ingresos, gastos, ahorro
+    
+    def guardar_datos(self):
+        with open('datos_financieros.pkl', 'wb') as f:
+            pickle.dump(self.transacciones, f)
+        print("Datos guardados exitosamente.")
+    
+    def cargar_datos(self):
+        try:
+            with open('datos_financieros.pkl', 'rb') as f:
+                self.transacciones = pickle.load(f)
+            print("Datos cargados exitosamente.")
+        except FileNotFoundError:
+            print("No se encontró el archivo de datos. Iniciando con una lista vacía.")
+            self.transacciones = []
+
+# Funciones auxiliares para interactuar con el usuario
+def menu_principal():
+    print("\n*** Aplicación de Seguimiento de Gastos ***")
+    print("1. Agregar Transacción")
+    print("2. Listar Transacciones")
+    print("3. Mostrar Balance")
+    print("4. Guardar Datos")
+    print("5. Cargar Datos")
+    print("6. Salir")
+
+def ingresar_transaccion():
+    monto = float(input("Ingrese el monto de la transacción: "))
+    fecha = input("Ingrese la fecha de la transacción (YYYY-MM-DD): ")
+    descripcion = input("Ingrese una descripción de la transacción: ")
+    tipo = input("Ingrese el tipo de transacción (ingreso/gasto): ")
+    return monto, fecha, descripcion, tipo
+
+# Ejecución principal del programa
+if __name__ == "__main__":
+    gestor = GestorFinanciero()
+    gestor.cargar_datos()
+    
+    while True:
+        menu_principal()
+        opcion = input("\nIngrese el número de la opción deseada: ")
+        
+        if opcion == '1':
+            monto, fecha, descripcion, tipo = ingresar_transaccion()
+            gestor.agregar_transaccion(monto, fecha, descripcion, tipo)
+        elif opcion == '2':
+            gestor.listar_transacciones()
+        elif opcion == '3':
+            ingresos, gastos, ahorro = gestor.calcular_balance()
+            print(f"\nIngresos totales: {ingresos}")
+            print(f"Gastos totales: {gastos}")
+            print(f"Capacidad de ahorro: {ahorro}")
+        elif opcion == '4':
+            gestor.guardar_datos()
+        elif opcion == '5':
+            gestor.cargar_datos()
+        elif opcion == '6':
+            print("Saliendo del programa...")
+            break
+        else:
+            print("Opción inválida. Por favor, ingrese un número del 1 al 6.")
